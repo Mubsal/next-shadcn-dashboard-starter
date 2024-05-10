@@ -1,12 +1,15 @@
 import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import CredentialProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google"; // Import GoogleProvider
+
 
 export const authOptions: NextAuthOptions = {
+
   providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID ?? "",
-      clientSecret: process.env.GITHUB_SECRET ?? "",
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!
     }),
     CredentialProvider({
       credentials: {
@@ -15,6 +18,7 @@ export const authOptions: NextAuthOptions = {
           type: "email",
           placeholder: "example@gmail.com",
         },
+        password: { label: "password", type: "password" },
       },
       async authorize(credentials, req) {
         const user = { id: "1", name: "John", email: credentials?.email };
@@ -31,6 +35,6 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/", //sigin page
+    signIn: "/signin", //sigin page
   },
 };
